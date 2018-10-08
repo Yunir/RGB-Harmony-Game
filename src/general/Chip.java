@@ -6,4 +6,8 @@ public class Chip {
     public Chip(ChipColor c) {
         color = c;
     }
+
+    public ChipColor getColor() {
+        return color;
+    }
 }
