@@ -4,6 +4,7 @@ import game_mechanics.Board;
 import game_mechanics.Cell;
 import game_mechanics.Chip;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -46,8 +47,9 @@ public class Controller {
             }
         }
 
-        vBase.getChildren().addAll(cellsGroup, chipsGroup);
-        vBase.getChildren().add(vBoard);
+        vBoard.getChildren().addAll(cellsGroup, chipsGroup);
+        vBase.setAlignment(vBoard, Pos.TOP_CENTER);
+        vBase.setCenter(vBoard);
         addChipsToGroup();
     }
 

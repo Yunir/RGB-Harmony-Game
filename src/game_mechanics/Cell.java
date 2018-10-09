@@ -14,8 +14,8 @@ public class Cell extends Rectangle {
         setHeight(CELL_SIZE);
 
         relocate(x*CELL_SIZE, y*CELL_SIZE);
-        if (isBlack) setFill(Color.BLACK);
-        else         setFill(Color.BROWN);
+        if (isBlack) setFill(Color.GREEN);
+        else         setFill(Color.BLUE);
 
     }
 

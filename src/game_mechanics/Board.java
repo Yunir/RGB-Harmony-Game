@@ -14,14 +14,14 @@ public class Board {
     }
 
     private void generateChipPositions() {
-        setPositionsToOneColorChips(ChipColor.YELLOW, COUNT_OF_ONE_COLOR_CHIPS);
-        setPositionsToOneColorChips(ChipColor.ORANGE, COUNT_OF_ONE_COLOR_CHIPS);
-        setPositionsToOneColorChips(ChipColor.RED, COUNT_OF_ONE_COLOR_CHIPS);
-        setPositionsToOneColorChips(ChipColor.BLACK, COUNT_OF_BLOCKS);
+        setPositionsToOneColorChips(ChipType.YELLOW, COUNT_OF_ONE_COLOR_CHIPS);
+        setPositionsToOneColorChips(ChipType.ORANGE, COUNT_OF_ONE_COLOR_CHIPS);
+        setPositionsToOneColorChips(ChipType.RED, COUNT_OF_ONE_COLOR_CHIPS);
+        setPositionsToOneColorChips(ChipType.BLOCK, COUNT_OF_BLOCKS);
         printBoard();
     }
 
-    private void setPositionsToOneColorChips(ChipColor color, int countOf) {
+    private void setPositionsToOneColorChips(ChipType color, int countOf) {
         int rand1, rand2;
         for (int i = 0; i < countOf; i++) {
             rand1 = getRandomInteger(0, BOARD_SIZE-1);
@@ -38,7 +38,7 @@ public class Board {
     private void printBoard() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                System.out.print((cells[i][j]==null?null:cells[i][j].getColor()) + " \t");
+                System.out.print((cells[i][j]==null?null:cells[i][j].getType()) + " \t");
             }
             System.out.println();
         }
