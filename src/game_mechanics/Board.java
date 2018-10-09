@@ -1,13 +1,15 @@
-package general;
+package game_mechanics;
+
+import static general.Controller.BOARD_SIZE;
 
 public class Board {
-    private final int SCALE = 5;
-    private final int COUNT_OF_ONE_COLOR_CHIPS = SCALE; //maximum height of board (where one_color_chips should be placed)
+
+    private final int COUNT_OF_ONE_COLOR_CHIPS = BOARD_SIZE; //maximum height of board (where one_color_chips should be placed)
     private final int COUNT_OF_BLOCKS = 6;
     private Chip[][] cells;
 
     public Board() {
-        cells = new Chip[SCALE][SCALE];
+        cells = new Chip[BOARD_SIZE][BOARD_SIZE];
         generateChipPositions();
     }
 
@@ -22,24 +24,28 @@ public class Board {
     private void setPositionsToOneColorChips(ChipColor color, int countOf) {
         int rand1, rand2;
         for (int i = 0; i < countOf; i++) {
-            rand1 = getRandomInteger(0, SCALE-1);
-            rand2 = getRandomInteger(0, SCALE-1);
-            if (cells[rand1][rand2] == null) cells[rand1][rand2] = new Chip(color);
+            rand1 = getRandomInteger(0, BOARD_SIZE-1);
+            rand2 = getRandomInteger(0, BOARD_SIZE-1);
+            if (cells[rand1][rand2] == null) cells[rand1][rand2] = new Chip(color, rand1, rand2);
             else --i;
         }
     }
 
+    public Chip[][] getCells() {
+        return cells;
+    }
+
     private void printBoard() {
-        for (int i = 0; i < SCALE; i++) {
-            for (int j = 0; j < SCALE; j++) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 System.out.print((cells[i][j]==null?null:cells[i][j].getColor()) + " \t");
             }
             System.out.println();
         }
     }
 
-    private int getRandomInteger(double min, double max){
-        double x = (Math.random()*((max-min)+1))+min;
-        return (int)x;
+    private int getRandomInteger(double min, double max) {
+        double x = (Math.random() * ((max - min) + 1)) + min;
+        return (int) x;
     }
 }
