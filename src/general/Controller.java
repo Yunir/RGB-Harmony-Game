@@ -48,38 +48,37 @@ public class Controller {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (board.getCells()[i][j] != null) {
-                    chipsGroup.getChildren().add(actionCell(board.getCells()[i][j]));
+                    chipsGroup.getChildren().add(attachActionToChip(board.getCells()[i][j]));
                 }
             }
         }
     }
 
-    private Chip actionCell(Chip chip) {
+    private Chip attachActionToChip(Chip chip) {
         chip.setOnMouseReleased(event -> {
-            int newX = mousePosToCell(chip.getLayoutX());
-            int newY = mousePosToCell(chip.getLayoutY());
 
             MoveResult result;
 
+            int newX = mousePosToCell(chip.getLayoutX());
+            int newY = mousePosToCell(chip.getLayoutY());
             if (newX < 0 || newY < 0 || newX >= BOARD_SIZE || newY >= BOARD_SIZE) {
-                result = new MoveResult(MoveType.NONE);
+                result = new MoveResult(MoveType.UNABLE);
             } else {
                 result = tryMove(chip, newX, newY);
             }
 
-            int x0 = mousePosToCell(chip.getOldX());
-            int y0 = mousePosToCell(chip.getOldY());
+            int oldX = mousePosToCell(chip.getPastMouseX());
+            int oldY = mousePosToCell(chip.getPastMouseY());
 
             switch (result.getType()) {
-                case NONE:
+                case UNABLE:
                     chip.moveBack();
                     break;
-                case STANDARD:
+                case ABLE:
                     chip.move(newX, newY);
-                    board.getCells()[x0][y0] = null;
+                    board.getCells()[oldX][oldY] = null;
                     board.getCells()[newX][newY] =chip;
                     break;
-
             }
         });
 
@@ -88,14 +87,18 @@ public class Controller {
 
     private MoveResult tryMove(Chip chip, int newX, int newY) {
         if (board.hasChip(newX, newY)) {
-            return new MoveResult(MoveType.NONE);
+            return new MoveResult(MoveType.UNABLE);
         }
 
-        int x0 = mousePosToCell(chip.getOldX());
-        int y0 = mousePosToCell(chip.getOldY());
+        int oldX = mousePosToCell(chip.getPastMouseX());
+        int oldY = mousePosToCell(chip.getPastMouseY());
 
-
-        return new MoveResult(MoveType.NONE);
+        boolean moveByX = (Math.abs(newX - oldX) == 1);
+        boolean moveByY = (Math.abs(newY - oldY) == 1);
+        if ((moveByX && !moveByY) || (!moveByX && moveByY)) {
+            return new MoveResult(MoveType.ABLE);
+        }
+        return new MoveResult(MoveType.UNABLE);
     }
 
     private int mousePosToCell(double pos) {

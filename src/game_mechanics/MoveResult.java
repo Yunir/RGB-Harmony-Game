@@ -17,8 +17,8 @@ public class MoveResult {
         this(type, null);
     }
 
-    public MoveResult(MoveType type, Chip piece) {
+    public MoveResult(MoveType type, Chip chip) {
         this.type = type;
-        this.chip = piece;
+        this.chip = chip;
     }
 }

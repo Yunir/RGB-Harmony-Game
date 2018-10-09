@@ -8,8 +8,7 @@ import static general.Controller.CELL_SIZE;
 
 public class Chip extends StackPane {
     private ChipType type;
-    private double mouseX, mouseY;
-    private double oldX, oldY;
+    private double mouseX, mouseY, pastMouseX, pastMouseY;
 
     public Chip(ChipType type, int x, int y) {
         this.type = type;
@@ -23,7 +22,6 @@ public class Chip extends StackPane {
         vBottomOfChip.setStroke(Color.BLACK);
         vBottomOfChip.setStrokeWidth(CELL_SIZE*0.03);
 
-
         vBottomOfChip.setTranslateX((CELL_SIZE - CELL_SIZE * 0.3125 * 2) / 2);
         vBottomOfChip.setTranslateY((CELL_SIZE - CELL_SIZE * 0.26 * 2) / 2 + CELL_SIZE * 0.07);
         //*****
@@ -33,37 +31,35 @@ public class Chip extends StackPane {
         vChip.setStroke(Color.BLACK);
         vChip.setStrokeWidth(CELL_SIZE*0.03);
 
-
         vChip.setTranslateX((CELL_SIZE - CELL_SIZE * 0.3125 * 2) / 2);
         vChip.setTranslateY((CELL_SIZE - CELL_SIZE * 0.26 * 2) / 2);
 
         getChildren().addAll(vBottomOfChip, vChip);
 
         //*****
+        if (this.type != ChipType.BLOCK) {
+            setOnMousePressed(event -> {
+                mouseX = event.getSceneX();
+                mouseY = event.getSceneY();
+            });
 
-        setOnMousePressed(event -> {
-            mouseX = event.getSceneX();
-            mouseY = event.getSceneY();
-        });
-
-        setOnMouseDragged(event -> {
-            relocate(event.getSceneX() - mouseX + oldX, event.getSceneY() - mouseY + oldY);
-        });
-        //move(x, y);
-
+            setOnMouseDragged(event -> {
+                relocate(event.getSceneX() - mouseX + pastMouseX, event.getSceneY() - mouseY + pastMouseY);
+            });
+        }
     }
 
     public void move(int x, int y) {
-        oldX = x * CELL_SIZE;
-        oldY = y * CELL_SIZE;
-        relocate(oldX, oldY);
+        pastMouseX = x * CELL_SIZE;
+        pastMouseY = y * CELL_SIZE;
+        relocate(pastMouseX, pastMouseY);
     }
 
     public void moveBack() {
-        relocate(oldX, oldY);
+        relocate(pastMouseX, pastMouseY);
     }
 
     public ChipType getType() { return type; }
-    public double getOldX() { return oldX; }
-    public double getOldY() { return oldY; }
+    public double getPastMouseX() { return pastMouseX; }
+    public double getPastMouseY() { return pastMouseY; }
 }
