@@ -16,10 +16,10 @@ public class Chip extends Rectangle {
 
         move(x, y);
 
-        Ellipse vChip = new Ellipse(25, 25);
+        /*Ellipse vChip = new Ellipse(25, 25);
         vChip.setFill(Color.AQUA);
         vChip.setStroke(Color.BLACK);
-        vChip.setStrokeWidth(1);
+        vChip.setStrokeWidth(1);*/
 
 
     }

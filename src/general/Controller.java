@@ -1,12 +1,14 @@
 package general;
 
 import game_mechanics.Board;
+import game_mechanics.Cell;
 import game_mechanics.Chip;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import sun.font.FontRunIterator;
 
 public class Controller {
 
@@ -18,12 +20,17 @@ public class Controller {
     @FXML private Label vIntro;
 
     private Pane vBoard;
+
+    private Group cellsGroup;
     private Group chipsGroup;
+
     private Board board;
 
     public Controller() {
         vBoard = new Pane();
+        cellsGroup = new Group();
         chipsGroup = new Group();
+
         board = new Board();
 
     }
@@ -32,8 +39,15 @@ public class Controller {
     private void initialize() {
         vBoard.setPrefSize(CELL_SIZE*BOARD_SIZE, CELL_SIZE*BOARD_SIZE);
 
+        for (int y = 0; y < BOARD_SIZE; y++) {
+            for (int x = 0; x < BOARD_SIZE; x++) {
+                Cell cell = new Cell(x, y, (x+y)%2 == 0);
+                cellsGroup.getChildren().add(cell);
+            }
+        }
+
+        vBase.getChildren().addAll(cellsGroup, chipsGroup);
         vBase.getChildren().add(vBoard);
-        vBase.getChildren().add(chipsGroup);
         addChipsToGroup();
     }
 
