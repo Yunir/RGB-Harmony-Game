@@ -14,19 +14,28 @@ public class Board {
     }
 
     private void generateChipPositions() {
-        setPositionsToOneColorChips(ChipType.YELLOW, COUNT_OF_ONE_COLOR_CHIPS);
-        setPositionsToOneColorChips(ChipType.ORANGE, COUNT_OF_ONE_COLOR_CHIPS);
-        setPositionsToOneColorChips(ChipType.RED, COUNT_OF_ONE_COLOR_CHIPS);
-        setPositionsToOneColorChips(ChipType.BLOCK, COUNT_OF_BLOCKS);
+        setPosTo1TypeChips(ChipType.BLOCK, COUNT_OF_BLOCKS);
+        setPosTo1TypeChips(ChipType.YELLOW, COUNT_OF_ONE_COLOR_CHIPS);
+        setPosTo1TypeChips(ChipType.ORANGE, COUNT_OF_ONE_COLOR_CHIPS);
+        setPosTo1TypeChips(ChipType.RED, COUNT_OF_ONE_COLOR_CHIPS);
         printBoard();
     }
 
-    private void setPositionsToOneColorChips(ChipType color, int countOf) {
+    private void setPosTo1TypeChips(ChipType type, int countOf) {
         int rand1, rand2;
         for (int i = 0; i < countOf; i++) {
-            rand1 = getRandomInteger(0, BOARD_SIZE-1);
+            if (type == ChipType.BLOCK) {
+                if(i<2) rand1 = 1;
+                else if(i<4) rand1 = 3;
+                else {
+                    rand1 = getRandomInteger(0, 1);
+                    rand1 = (rand1 == 0) ? 1 : 3;
+                }
+            } else {
+                rand1 = getRandomInteger(0, BOARD_SIZE-1);
+            }
             rand2 = getRandomInteger(0, BOARD_SIZE-1);
-            if (cells[rand1][rand2] == null) cells[rand1][rand2] = new Chip(color, rand1, rand2);
+            if (cells[rand1][rand2] == null) cells[rand1][rand2] = new Chip(type, rand1, rand2);
             else --i;
         }
     }
@@ -36,9 +45,9 @@ public class Board {
     }
 
     private void printBoard() {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                System.out.print((cells[i][j]==null?null:cells[i][j].getType()) + " \t");
+        for (int y = 0; y < BOARD_SIZE; y++) {
+            for (int x = 0; x < BOARD_SIZE; x++) {
+                System.out.print((cells[x][y]==null?null:cells[x][y].getType()) + " \t");
             }
             System.out.println();
         }

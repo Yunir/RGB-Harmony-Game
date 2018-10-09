@@ -2,11 +2,9 @@ package general;
 
 import game_mechanics.*;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 public class Controller {
 
@@ -14,11 +12,8 @@ public class Controller {
     public static final int BOARD_SIZE = 5; // 5 CELL_SIZES
 
     @FXML private BorderPane vBase;
-    //@FXML private GridPane vBoard;
     @FXML private Label vIntro;
-
     private Pane vBoard;
-
     private Group cellsGroup;
     private Group chipsGroup;
 
@@ -28,9 +23,7 @@ public class Controller {
         vBoard = new Pane();
         cellsGroup = new Group();
         chipsGroup = new Group();
-
         board = new Board();
-
     }
 
     @FXML
@@ -39,14 +32,15 @@ public class Controller {
 
         for (int y = 0; y < BOARD_SIZE; y++) {
             for (int x = 0; x < BOARD_SIZE; x++) {
-                Cell cell = new Cell(x, y, (x+y)%2 == 0);
+                Cell cell = new Cell(x, y, x == 1 || x == 3);
                 cellsGroup.getChildren().add(cell);
             }
         }
 
         vBoard.getChildren().addAll(cellsGroup, chipsGroup);
-        vBase.setAlignment(vBoard, Pos.TOP_CENTER);
+        vBoard.setMaxSize(500, 500);
         vBase.setCenter(vBoard);
+
         addChipsToGroup();
     }
 

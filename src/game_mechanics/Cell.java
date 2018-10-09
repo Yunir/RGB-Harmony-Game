@@ -9,25 +9,18 @@ import static general.Controller.CELL_SIZE;
 public class Cell extends Rectangle {
     private Chip chip;
 
-    public Cell(int x, int y, boolean isBlack) {
+    public Cell(int x, int y, boolean isColorBrighter) {
         setWidth(CELL_SIZE);
         setHeight(CELL_SIZE);
 
         relocate(x*CELL_SIZE, y*CELL_SIZE);
-        if (isBlack) setFill(Color.GREEN);
-        else         setFill(Color.BLUE);
 
+        if (isColorBrighter) setFill(Color.web("#f4f4f8"));
+        else                 setFill(Color.web("#e6e6ea"));
     }
 
-    public void setChip(Chip chip) {
-        this.chip = chip;
-    }
+    public boolean hasChip() { return chip != null; }
 
-    public Chip getChip() {
-        return chip;
-    }
-
-    public boolean hasChip() {
-        return chip != null;
-    }
+    public void setChip(Chip chip) { this.chip = chip; }
+    public Chip getChip() { return chip; }
 }

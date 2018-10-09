@@ -28,7 +28,7 @@ public class Chip extends StackPane {
         vBottomOfChip.setTranslateY((CELL_SIZE - CELL_SIZE * 0.26 * 2) / 2 + CELL_SIZE * 0.07);
         //*****
         Ellipse vChip = new Ellipse(CELL_SIZE*0.3125, CELL_SIZE*0.26);
-        vChip.setFill(this.type.color);
+        vChip.setFill(Color.web(this.type.color));
 
         vChip.setStroke(Color.BLACK);
         vChip.setStrokeWidth(CELL_SIZE*0.03);

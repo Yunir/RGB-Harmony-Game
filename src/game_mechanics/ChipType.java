@@ -4,11 +4,11 @@ package game_mechanics;
 import javafx.scene.paint.Color;
 
 public enum ChipType {
-    YELLOW(Color.YELLOW), ORANGE(Color.ORANGE), RED(Color.RED), BLOCK(Color.BLACK);
+    YELLOW("#ffeead"), ORANGE("#ffcc5c"), RED("#ff6f69"), BLOCK("#36454f");
 
-    final Color color;
+    final String color;
 
-    ChipType(Color c) {
+    ChipType(String c) {
         color = c;
     }
 
