@@ -12,14 +12,21 @@ public class Board {
     }
 
     private void generateChipPositions() {
+        setPositionsToOneColorChips(ChipColor.YELLOW, COUNT_OF_ONE_COLOR_CHIPS);
+        setPositionsToOneColorChips(ChipColor.ORANGE, COUNT_OF_ONE_COLOR_CHIPS);
+        setPositionsToOneColorChips(ChipColor.RED, COUNT_OF_ONE_COLOR_CHIPS);
+        setPositionsToOneColorChips(ChipColor.BLACK, COUNT_OF_BLOCKS);
+        printBoard();
+    }
+
+    private void setPositionsToOneColorChips(ChipColor color, int countOf) {
         int rand1, rand2;
-        for (int i = 0; i < SCALE; i++) {
+        for (int i = 0; i < countOf; i++) {
             rand1 = getRandomInteger(0, SCALE-1);
             rand2 = getRandomInteger(0, SCALE-1);
-            if (cells[rand1][rand2] == null) cells[rand1][rand2] = new Chip(ChipColor.YELLOW);
+            if (cells[rand1][rand2] == null) cells[rand1][rand2] = new Chip(color);
             else --i;
         }
-        printBoard();
     }
 
     private void printBoard() {
