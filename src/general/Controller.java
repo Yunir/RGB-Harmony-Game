@@ -30,28 +30,11 @@ public class Controller {
     private void initialize() {
         vBoard.setPrefSize(CELL_SIZE*BOARD_SIZE, CELL_SIZE*BOARD_SIZE);
 
-        for (int y = 0; y < BOARD_SIZE; y++) {
-            for (int x = 0; x < BOARD_SIZE; x++) {
-                Cell cell = new Cell(x, y, x == 1 || x == 3);
-                cellsGroup.getChildren().add(cell);
-            }
-        }
-
+        addCellsAndChipsToGroup();
         vBoard.getChildren().addAll(cellsGroup, chipsGroup);
         vBoard.setMaxSize(500, 500);
         vBase.setCenter(vBoard);
 
-        addChipsToGroup();
-    }
-
-    private void addChipsToGroup() {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                if (board.getCells()[i][j] != null) {
-                    chipsGroup.getChildren().add(attachActionToChip(board.getCells()[i][j]));
-                }
-            }
-        }
     }
 
     private Chip attachActionToChip(Chip chip) {
@@ -76,8 +59,12 @@ public class Controller {
                     break;
                 case ABLE:
                     chip.move(newX, newY);
-                    board.getCells()[oldX][oldY] = null;
-                    board.getCells()[newX][newY] =chip;
+                    board.getCell(oldX,oldY).setChip(null);
+                    board.getCell(newX,newY).setChip(chip);
+                    if(chip.getChipType() == board.getCell(oldX, oldY).getCellType() && board.getRGBbyId(chip.getChipType().getId())) {
+                        board.changeCellsColor(chip.getChipType(), false);
+                    }
+                    if(chip.getChipType() == board.getCell(newX, newY).getCellType()) board.checkRowCollected(chip.getChipType());
                     break;
             }
         });
@@ -103,5 +90,16 @@ public class Controller {
 
     private int mousePosToCell(double pos) {
         return (int)(pos + CELL_SIZE / 2) / CELL_SIZE;
+    }
+
+    private void addCellsAndChipsToGroup() {
+        for (int y = 0; y < BOARD_SIZE; y++) {
+            for (int x = 0; x < BOARD_SIZE; x++) {
+                cellsGroup.getChildren().add(board.getCell(x,y));
+                if (board.hasChip(x,y)) {
+                    chipsGroup.getChildren().add(attachActionToChip(board.getCell(x,y).getChip()));
+                }
+            }
+        }
     }
 }

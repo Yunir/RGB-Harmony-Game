@@ -7,11 +7,11 @@ import javafx.scene.shape.Ellipse;
 import static general.Controller.CELL_SIZE;
 
 public class Chip extends StackPane {
-    private ChipType type;
+    private CType chipType;
     private double mouseX, mouseY, pastMouseX, pastMouseY;
 
-    public Chip(ChipType type, int x, int y) {
-        this.type = type;
+    public Chip(CType type, int x, int y) {
+        this.chipType = type;
 
         move(x, y);
 
@@ -26,7 +26,7 @@ public class Chip extends StackPane {
         vBottomOfChip.setTranslateY((CELL_SIZE - CELL_SIZE * 0.26 * 2) / 2 + CELL_SIZE * 0.07);
         //*****
         Ellipse vChip = new Ellipse(CELL_SIZE*0.3125, CELL_SIZE*0.26);
-        vChip.setFill(Color.web(this.type.color));
+        vChip.setFill(Color.web(this.chipType.color));
 
         vChip.setStroke(Color.BLACK);
         vChip.setStrokeWidth(CELL_SIZE*0.03);
@@ -37,7 +37,7 @@ public class Chip extends StackPane {
         getChildren().addAll(vBottomOfChip, vChip);
 
         //*****
-        if (this.type != ChipType.BLOCK) {
+        if (this.chipType != CType.BLOCK) {
             setOnMousePressed(event -> {
                 mouseX = event.getSceneX();
                 mouseY = event.getSceneY();
@@ -59,7 +59,7 @@ public class Chip extends StackPane {
         relocate(pastMouseX, pastMouseY);
     }
 
-    public ChipType getType() { return type; }
+    public CType getChipType() { return chipType; }
     public double getPastMouseX() { return pastMouseX; }
     public double getPastMouseY() { return pastMouseY; }
 }
