@@ -48,4 +48,8 @@ public class Board {
         double x = (Math.random() * ((max - min) + 1)) + min;
         return (int) x;
     }
+
+    public boolean hasChip(int x, int y) {
+        return cells[x][y] != null;
+    }
 }

@@ -14,7 +14,7 @@ public class Chip extends StackPane {
     public Chip(ChipType type, int x, int y) {
         this.type = type;
 
-        relocate(x * CELL_SIZE, y * CELL_SIZE);
+        move(x, y);
 
         //*****
         Ellipse vBottomOfChip = new Ellipse(CELL_SIZE*0.3125, CELL_SIZE*0.26);
@@ -41,16 +41,23 @@ public class Chip extends StackPane {
 
         //*****
 
+        setOnMousePressed(event -> {
+            mouseX = event.getSceneX();
+            mouseY = event.getSceneY();
+        });
 
+        setOnMouseDragged(event -> {
+            relocate(event.getSceneX() - mouseX + oldX, event.getSceneY() - mouseY + oldY);
+        });
         //move(x, y);
 
     }
 
-    /*public void move(int x, int y) {
-        oldX = x;
-        oldY = y;
+    public void move(int x, int y) {
+        oldX = x * CELL_SIZE;
+        oldY = y * CELL_SIZE;
         relocate(oldX, oldY);
-    }*/
+    }
 
     public void moveBack() {
         relocate(oldX, oldY);

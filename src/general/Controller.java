@@ -1,15 +1,12 @@
 package general;
 
-import game_mechanics.Board;
-import game_mechanics.Cell;
-import game_mechanics.Chip;
+import game_mechanics.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import sun.font.FontRunIterator;
 
 public class Controller {
 
@@ -57,15 +54,57 @@ public class Controller {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (board.getCells()[i][j] != null) {
-                    chipsGroup.getChildren().add(board.getCells()[i][j]);
-
+                    chipsGroup.getChildren().add(actionCell(board.getCells()[i][j]));
                 }
             }
         }
     }
 
-    private void drawChip(Chip chip) {
+    private Chip actionCell(Chip chip) {
+        chip.setOnMouseReleased(event -> {
+            int newX = mousePosToCell(chip.getLayoutX());
+            int newY = mousePosToCell(chip.getLayoutY());
 
+            MoveResult result;
+
+            if (newX < 0 || newY < 0 || newX >= BOARD_SIZE || newY >= BOARD_SIZE) {
+                result = new MoveResult(MoveType.NONE);
+            } else {
+                result = tryMove(chip, newX, newY);
+            }
+
+            int x0 = mousePosToCell(chip.getOldX());
+            int y0 = mousePosToCell(chip.getOldY());
+
+            switch (result.getType()) {
+                case NONE:
+                    chip.moveBack();
+                    break;
+                case STANDARD:
+                    chip.move(newX, newY);
+                    board.getCells()[x0][y0] = null;
+                    board.getCells()[newX][newY] =chip;
+                    break;
+
+            }
+        });
+
+        return chip;
     }
 
+    private MoveResult tryMove(Chip chip, int newX, int newY) {
+        if (board.hasChip(newX, newY)) {
+            return new MoveResult(MoveType.NONE);
+        }
+
+        int x0 = mousePosToCell(chip.getOldX());
+        int y0 = mousePosToCell(chip.getOldY());
+
+
+        return new MoveResult(MoveType.NONE);
+    }
+
+    private int mousePosToCell(double pos) {
+        return (int)(pos + CELL_SIZE / 2) / CELL_SIZE;
+    }
 }
