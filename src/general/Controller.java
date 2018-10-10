@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 public class Controller {
 
@@ -16,13 +18,18 @@ public class Controller {
     @FXML private BorderPane vBase;
     @FXML private Label vIntro;
     @FXML private Pane vBoard;
+    @FXML private Circle vRetryButton;
+    @FXML private Circle vInstructionButton;
+    @FXML private Label vStepsLabel;
     private ImageView vWinPic;
     private Group cellsGroup;
     private Group chipsGroup;
 
     private Board board;
+    private int stepsCounter;
 
     public Controller() {
+        stepsCounter = 0;
         vWinPic = new ImageView("win.png");
         cellsGroup = new Group();
         chipsGroup = new Group();
@@ -36,6 +43,9 @@ public class Controller {
         vWinPic.setFitHeight(170);
         vWinPic.setLayoutX(75);
         vWinPic.setLayoutY(160);
+        vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
+        vInstructionButton.setFill(new ImagePattern(new Image("instruction.png")));
+
         addCellsAndChipsToGroup();
         vBoard.getChildren().addAll(cellsGroup, chipsGroup, vWinPic);
     }
@@ -61,6 +71,8 @@ public class Controller {
                     chip.moveBack();
                     break;
                 case ABLE:
+                    ++stepsCounter;
+                    vStepsLabel.setText(Integer.toString(stepsCounter));
                     chip.move(newX, newY);
                     board.getCell(oldX,oldY).setChip(null);
                     board.getCell(newX,newY).setChip(chip);
