@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -27,20 +28,17 @@ public class Controller {
     private Group chipsGroup;
 
     private Board board;
+
     private int stepsCounter;
     private GameTimer gameTimer;
 
-    public Controller() {
-        stepsCounter = 0;
-        vWinPic = new ImageView("win.png");
-        cellsGroup = new Group();
-        chipsGroup = new Group();
-        board = new Board();
-    }
+    public Controller() { }
 
     @FXML
     private void initialize() {
+        stepsCounter = 0;
         gameTimer = new GameTimer(vTimer);
+        vWinPic = new ImageView("win.png");
         vWinPic.setVisible(false);
         vWinPic.setFitWidth(350);
         vWinPic.setFitHeight(170);
@@ -49,8 +47,7 @@ public class Controller {
         vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
         vInstructionButton.setFill(new ImagePattern(new Image("instruction.png")));
 
-        addCellsAndChipsToGroup();
-        vBoard.getChildren().addAll(cellsGroup, chipsGroup, vWinPic);
+        generateBoard();
     }
 
     private Chip attachActionToChip(Chip chip) {
@@ -126,5 +123,21 @@ public class Controller {
                 }
             }
         }
+    }
+
+    private void generateBoard() {
+        board = new Board();
+
+        cellsGroup = new Group();
+        chipsGroup = new Group();
+        addCellsAndChipsToGroup();
+        vBoard.getChildren().addAll(cellsGroup, chipsGroup, vWinPic);
+
+    }
+
+    public void generateBoardAgain(MouseEvent mouseEvent) {
+        vBoard.getChildren().clear();
+        generateBoard();
+
     }
 }

@@ -27,17 +27,22 @@ public class Board {
         }
     }
 
+    private void generateChips() {
+        setPosTo1TypeChips(CType.BLOCK, COUNT_OF_BLOCKS);
+        setPosTo1TypeChips(CType.RED, COUNT_OF_ONE_COLOR_CHIPS);
+        setPosTo1TypeChips(CType.GREEN, COUNT_OF_ONE_COLOR_CHIPS);
+        setPosTo1TypeChips(CType.BLUE, COUNT_OF_ONE_COLOR_CHIPS);
+        //printBoard();
+    }
+
     public boolean checkRowCollected(CType chipType) {
-        //System.out.println(chipType.defPosX + " is defPosX");
         for (int y = 0; y < BOARD_SIZE; y++) {
             if ((!cells[chipType.defPosX][y].hasChip()) || (cells[chipType.defPosX][y].getChip().getChipType() != cells[chipType.defPosX][y].getCellType())) return false;
-            //System.out.println(y + " So chipType " + chipType + " and cellType is " + cells[chipType.defPosX][y].getCellType());
         }
         changeCellsColor(chipType, true);
         return (r && g && b);
 
     }
-
 
     public void changeCellsColor (CType chipType, boolean isCollected) {
         switch (chipType.id) {
@@ -65,14 +70,6 @@ public class Board {
             case 3: return b;
             default: return false;
         }
-    }
-
-    private void generateChips() {
-        setPosTo1TypeChips(CType.BLOCK, COUNT_OF_BLOCKS);
-        setPosTo1TypeChips(CType.RED, COUNT_OF_ONE_COLOR_CHIPS);
-        setPosTo1TypeChips(CType.GREEN, COUNT_OF_ONE_COLOR_CHIPS);
-        setPosTo1TypeChips(CType.BLUE, COUNT_OF_ONE_COLOR_CHIPS);
-        //printBoard();
     }
 
     private void setPosTo1TypeChips(CType type, int countOf) {

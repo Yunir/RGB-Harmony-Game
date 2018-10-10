@@ -23,7 +23,7 @@
       </Pane>
    </center>
    <right>
-      <Circle fx:id="vRetryButton" fill="#bdddfc" radius="32.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" BorderPane.alignment="CENTER" />
+      <Circle fx:id="vRetryButton" fill="#bdddfc" onMouseClicked="#generateBoardAgain" radius="32.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" BorderPane.alignment="CENTER" />
    </right>
    <left>
       <Circle fx:id="vInstructionButton" fill="#bdddfc" radius="32.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" BorderPane.alignment="CENTER" />
