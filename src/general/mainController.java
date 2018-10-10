@@ -7,7 +7,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -17,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class mainController {
 
@@ -47,11 +47,12 @@ public class mainController {
 
     @FXML
     private void initialize() {
-
         vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
         vTutorialButton.setFill(new ImagePattern(new Image("instruction.png")));
         vStepBackButton.setFill(new ImagePattern(new Image("step_back.png")));
-        generateBoard();
+        vRetryButton.setVisible(false);
+        vTutorialButton.setVisible(false);
+        vStepBackButton.setVisible(false);
     }
 
     private MoveResult tryMove(Chip chip, int newX, int newY) {
@@ -71,7 +72,7 @@ public class mainController {
     }
 
     private void generateBoard() {
-
+        vBoard.getChildren().clear();
         stepsCounter = 0;
         setSteps2Label();
         gameTimer = new GameTimer(vTimer);
@@ -214,5 +215,17 @@ public class mainController {
         currentStage.close();
     }
 
+
+
+    public void startNewGame(MouseEvent mouseEvent) {
+        generateBoard();
+        vRetryButton.setVisible(true);
+        vTutorialButton.setVisible(true);
+        vStepBackButton.setVisible(true);
+    }
+
+    public void quit(MouseEvent mouseEvent) {
+        closeStage();
+    }
 
 }

@@ -9,6 +9,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Button?>
 <BorderPane fx:id="vBase" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="general.mainController">
    <top>
       <Label fx:id="vIntro" text="&lt; Open your mind &gt;" BorderPane.alignment="CENTER">
@@ -21,11 +22,44 @@
    </top>
    <center>
       <Pane fx:id="vBoard" maxHeight="500.0" maxWidth="500.0" prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <VBox alignment="CENTER" prefHeight="500.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+            <children>
+               <Label fx:id="vSummaryTime" rotate="26.6" text="Finally Beta!">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets left="200.0" />
+                  </VBox.margin>
+               </Label>
+               <Button id="got-it-button" fx:id="vNewGameMenuButton" alignment="CENTER" maxWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#startNewGame" prefWidth="105.0" stylesheets="@styles.css" text="New Game!" textAlignment="CENTER" textFill="WHITE">
+                  <VBox.margin>
+                     <Insets top="30.0" />
+                  </VBox.margin></Button>
+               <Button id="got-it-button" fx:id="vTutorialMenuButton" alignment="CENTER" layoutX="258.0" layoutY="182.0" maxWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#openTutorial" prefWidth="105.0" stylesheets="@styles.css" text="Tutorial" textAlignment="CENTER" textFill="WHITE" />
+               <Button id="got-it-button" fx:id="vQuitMenuButton" alignment="CENTER" layoutX="267.0" layoutY="296.0" maxWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#quit" prefWidth="105.0" stylesheets="@styles.css" text="Quit" textAlignment="CENTER" textFill="WHITE">
+                  <VBox.margin>
+                     <Insets top="20.0" />
+                  </VBox.margin>
+               </Button>
+            </children>
+            <padding>
+               <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+         </VBox>
       </Pane>
    </center>
    <bottom>
       <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="25.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <children>
+            <Label fx:id="vSummaryTime1" text="RGB Harmony Beta 1.0" textFill="#808080">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="135.0" />
+               </HBox.margin>
+            </Label>
             <Label text="Count of steps: ">
                <font>
                   <Font size="14.0" />
