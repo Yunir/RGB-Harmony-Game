@@ -36,14 +36,9 @@ public class Controller {
 
     @FXML
     private void initialize() {
-        stepsCounter = 0;
+        initializeCongratsPic(vWinPic);
         gameTimer = new GameTimer(vTimer);
-        vWinPic = new ImageView("win.png");
-        vWinPic.setVisible(false);
-        vWinPic.setFitWidth(350);
-        vWinPic.setFitHeight(170);
-        vWinPic.setLayoutX(75);
-        vWinPic.setLayoutY(160);
+
         vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
         vInstructionButton.setFill(new ImagePattern(new Image("instruction.png")));
 
@@ -126,18 +121,30 @@ public class Controller {
     }
 
     private void generateBoard() {
-        board = new Board();
 
+        stepsCounter = 0;
+        vStepsLabel.setText("0");
+
+        board = new Board();
         cellsGroup = new Group();
         chipsGroup = new Group();
         addCellsAndChipsToGroup();
         vBoard.getChildren().addAll(cellsGroup, chipsGroup, vWinPic);
-
     }
 
+    @FXML
     public void generateBoardAgain(MouseEvent mouseEvent) {
         vBoard.getChildren().clear();
+        vWinPic.setVisible(false);
         generateBoard();
+    }
 
+    private void initializeCongratsPic(ImageView vPic) {
+        vWinPic = new ImageView("win.png");
+        vWinPic.setVisible(false);
+        vWinPic.setFitWidth(350);
+        vWinPic.setFitHeight(170);
+        vWinPic.setLayoutX(75);
+        vWinPic.setLayoutY(160);
     }
 }
