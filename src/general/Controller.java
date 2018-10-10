@@ -21,12 +21,14 @@ public class Controller {
     @FXML private Circle vRetryButton;
     @FXML private Circle vInstructionButton;
     @FXML private Label vStepsLabel;
+    @FXML private Label vTimer;
     private ImageView vWinPic;
     private Group cellsGroup;
     private Group chipsGroup;
 
     private Board board;
     private int stepsCounter;
+    private GameTimer gameTimer;
 
     public Controller() {
         stepsCounter = 0;
@@ -38,6 +40,7 @@ public class Controller {
 
     @FXML
     private void initialize() {
+        gameTimer = new GameTimer(vTimer);
         vWinPic.setVisible(false);
         vWinPic.setFitWidth(350);
         vWinPic.setFitHeight(170);
@@ -71,6 +74,7 @@ public class Controller {
                     chip.moveBack();
                     break;
                 case ABLE:
+                    if(!gameTimer.isStarted())gameTimer.start();
                     ++stepsCounter;
                     vStepsLabel.setText(Integer.toString(stepsCounter));
                     chip.move(newX, newY);
@@ -80,7 +84,12 @@ public class Controller {
                         board.changeCellsColor(chip.getChipType(), false);
                         //vWinPic.setVisible(false);
                     }
-                    if(chip.getChipType() == board.getCell(newX, newY).getCellType()) vWinPic.setVisible(board.checkRowCollected(chip.getChipType()));
+                    if(chip.getChipType() == board.getCell(newX, newY).getCellType()) {
+                        if (board.checkRowCollected(chip.getChipType())) {
+                            vWinPic.setVisible(true);
+                            gameTimer.stop();
+                        }
+                    }
                     break;
             }
         });

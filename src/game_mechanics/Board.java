@@ -28,10 +28,10 @@ public class Board {
     }
 
     public boolean checkRowCollected(CType chipType) {
-        System.out.println(chipType.defPosX + " is defPosX");
+        //System.out.println(chipType.defPosX + " is defPosX");
         for (int y = 0; y < BOARD_SIZE; y++) {
             if ((!cells[chipType.defPosX][y].hasChip()) || (cells[chipType.defPosX][y].getChip().getChipType() != cells[chipType.defPosX][y].getCellType())) return false;
-            System.out.println(y + " So chipType " + chipType + " and cellType is " + cells[chipType.defPosX][y].getCellType());
+            //System.out.println(y + " So chipType " + chipType + " and cellType is " + cells[chipType.defPosX][y].getCellType());
         }
         changeCellsColor(chipType, true);
         return (r && g && b);
@@ -72,7 +72,7 @@ public class Board {
         setPosTo1TypeChips(CType.RED, COUNT_OF_ONE_COLOR_CHIPS);
         setPosTo1TypeChips(CType.GREEN, COUNT_OF_ONE_COLOR_CHIPS);
         setPosTo1TypeChips(CType.BLUE, COUNT_OF_ONE_COLOR_CHIPS);
-        printBoard();
+        //printBoard();
     }
 
     private void setPosTo1TypeChips(CType type, int countOf) {
