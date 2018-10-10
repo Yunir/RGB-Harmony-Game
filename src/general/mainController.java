@@ -2,7 +2,9 @@ package general;
 
 import game_mechanics.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,8 +12,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-public class Controller {
+import java.io.IOException;
+
+public class mainController {
 
     public static final int CELL_SIZE = 100;
     public static final int BOARD_SIZE = 5; // 5 CELL_SIZES
@@ -20,7 +26,8 @@ public class Controller {
     @FXML private Label vIntro;
     @FXML private Pane vBoard;
     @FXML private Circle vRetryButton;
-    @FXML private Circle vInstructionButton;
+    @FXML private Circle vTutorialButton;
+    @FXML private Circle vStepBackButton;
     @FXML private Label vStepsLabel;
     @FXML private Label vTimer;
     private ImageView vWinPic;
@@ -28,11 +35,10 @@ public class Controller {
     private Group chipsGroup;
 
     private Board board;
-
     private int stepsCounter;
     private GameTimer gameTimer;
 
-    public Controller() { }
+    public mainController() { }
 
     @FXML
     private void initialize() {
@@ -40,8 +46,8 @@ public class Controller {
         gameTimer = new GameTimer(vTimer);
 
         vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
-        vInstructionButton.setFill(new ImagePattern(new Image("instruction.png")));
-
+        vTutorialButton.setFill(new ImagePattern(new Image("instruction.png")));
+        vStepBackButton.setFill(new ImagePattern(new Image("step_back.png")));
         generateBoard();
     }
 
@@ -105,26 +111,9 @@ public class Controller {
         return new MoveResult(MoveType.UNABLE);
     }
 
-    private int mousePosToCell(double pos) {
-        return (int)(pos + CELL_SIZE / 2) / CELL_SIZE;
-    }
-
-    private void addCellsAndChipsToGroup() {
-        for (int y = 0; y < BOARD_SIZE; y++) {
-            for (int x = 0; x < BOARD_SIZE; x++) {
-                cellsGroup.getChildren().add(board.getCell(x,y));
-                if (board.hasChip(x,y)) {
-                    chipsGroup.getChildren().add(attachActionToChip(board.getCell(x,y).getChip()));
-                }
-            }
-        }
-    }
-
     private void generateBoard() {
-
         stepsCounter = 0;
         vStepsLabel.setText("0");
-
         board = new Board();
         cellsGroup = new Group();
         chipsGroup = new Group();
@@ -139,6 +128,29 @@ public class Controller {
         generateBoard();
     }
 
+    @FXML
+    public void openTutorial(MouseEvent mouseEvent) throws IOException {
+        Stage tutorialStage;
+
+        tutorialStage = new Stage();
+        tutorialStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("tutorial.fxml"))));
+        tutorialStage.setTitle("My modal window");
+        tutorialStage.initModality(Modality.APPLICATION_MODAL);
+        tutorialStage.initOwner(vBoard.getScene().getWindow());
+        tutorialStage.showAndWait();
+    }
+
+    private void addCellsAndChipsToGroup() {
+        for (int y = 0; y < BOARD_SIZE; y++) {
+            for (int x = 0; x < BOARD_SIZE; x++) {
+                cellsGroup.getChildren().add(board.getCell(x,y));
+                if (board.hasChip(x,y)) {
+                    chipsGroup.getChildren().add(attachActionToChip(board.getCell(x,y).getChip()));
+                }
+            }
+        }
+    }
+
     private void initializeCongratsPic(ImageView vPic) {
         vWinPic = new ImageView("win.png");
         vWinPic.setVisible(false);
@@ -146,5 +158,9 @@ public class Controller {
         vWinPic.setFitHeight(170);
         vWinPic.setLayoutX(75);
         vWinPic.setLayoutY(160);
+    }
+
+    private int mousePosToCell(double pos) {
+        return (int)(pos + CELL_SIZE / 2) / CELL_SIZE;
     }
 }

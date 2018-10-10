@@ -4,7 +4,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
-import static general.Controller.CELL_SIZE;
+import static general.mainController.CELL_SIZE;
 
 public class Chip extends StackPane {
     private CType chipType;

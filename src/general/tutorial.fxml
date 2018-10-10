@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="general.TutorialController">
+   <children>
+      <Label text="How to play">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+            <Label prefWidth="600.0" text="Given a field of 5 * 5 cells and 15 chips of three colors, five of each color. Each cell of the fieldcan be either blocked, or occupied by one chip of any color, or free.All chips are displayed on the field, 6 cells are blocked and 4 cells are free.Blocked cells remain always. Chips we can move onadjacent free space horizontally or vertically. Required by moving the chipsput them in three vertical rows according to the colors above the field." textAlignment="JUSTIFY" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Button id="got-it-button" mnemonicParsing="false" stylesheets="@styles.css" text="Got it!" textFill="WHITE" />
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

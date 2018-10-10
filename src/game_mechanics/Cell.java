@@ -3,7 +3,7 @@ package game_mechanics;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import static general.Controller.CELL_SIZE;
+import static general.mainController.CELL_SIZE;
 
 public class Cell extends Rectangle {
     private Chip chip;

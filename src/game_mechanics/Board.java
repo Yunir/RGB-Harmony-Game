@@ -2,7 +2,7 @@ package game_mechanics;
 
 import javafx.scene.paint.Color;
 
-import static general.Controller.BOARD_SIZE;
+import static general.mainController.BOARD_SIZE;
 
 public class Board {
 
