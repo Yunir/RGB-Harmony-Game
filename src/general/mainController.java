@@ -30,7 +30,10 @@ public class mainController {
     @FXML private Circle vTutorialButton;
     @FXML private Circle vStepBackButton;
     @FXML private Label vStepsLabel;
+    @FXML private Label vStepsTextLabel;
     @FXML private Label vTimer;
+    @FXML private Label vTimerText;
+    @FXML private HBox vStats;
     private Group cellsGroup;
     private Group chipsGroup;
 
@@ -53,6 +56,11 @@ public class mainController {
         vRetryButton.setVisible(false);
         vTutorialButton.setVisible(false);
         vStepBackButton.setVisible(false);
+        vStepsLabel.setVisible(false);
+        vStepsTextLabel.setVisible(false);
+        vTimer.setVisible(false);
+        vTimerText.setVisible(false);
+
     }
 
     private MoveResult tryMove(Chip chip, int newX, int newY) {
@@ -222,6 +230,10 @@ public class mainController {
         vRetryButton.setVisible(true);
         vTutorialButton.setVisible(true);
         vStepBackButton.setVisible(true);
+        vStepsLabel.setVisible(true);
+        vStepsTextLabel.setVisible(true);
+        vTimer.setVisible(true);
+        vTimerText.setVisible(true);
     }
 
     public void quit(MouseEvent mouseEvent) {
