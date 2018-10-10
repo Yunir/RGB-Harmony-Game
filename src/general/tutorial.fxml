@@ -17,7 +17,7 @@
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Button id="got-it-button" mnemonicParsing="false" stylesheets="@styles.css" text="Got it!" textFill="WHITE" />
+      <Button id="got-it-button" fx:id="vGotItButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#closeTutorial" stylesheets="@styles.css" text="Got it!" textAlignment="CENTER" textFill="WHITE" />
    </children>
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

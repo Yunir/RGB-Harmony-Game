@@ -37,6 +37,7 @@ public class mainController {
     private Board board;
     private int stepsCounter;
     private GameTimer gameTimer;
+    Stage tutorialStage;
 
     public mainController() { }
 
@@ -130,10 +131,9 @@ public class mainController {
 
     @FXML
     public void openTutorial(MouseEvent mouseEvent) throws IOException {
-        Stage tutorialStage;
-
         tutorialStage = new Stage();
         tutorialStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("tutorial.fxml"))));
+        tutorialStage.setResizable(false);
         tutorialStage.setTitle("My modal window");
         tutorialStage.initModality(Modality.APPLICATION_MODAL);
         tutorialStage.initOwner(vBoard.getScene().getWindow());
