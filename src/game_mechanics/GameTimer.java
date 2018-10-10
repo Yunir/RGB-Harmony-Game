@@ -50,11 +50,21 @@ public class GameTimer extends AnimationTimer {
 
     private String getFormattedTime(long time) {
         int hours, minutes, seconds;
-        hours   = (int) (time / 3600);
-        minutes = (int) ((time % 3600) / 60);
-        seconds = (int) (time % 60);
+        hours   = getHours();
+        minutes = getMinutes();
+        seconds = getSeconds();
         if (hours > 0)
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public int getHours() {
+        return (int) (time / 3600);
+    }
+    public int getMinutes() {
+        return (int) ((time % 3600) / 60);
+    }
+    public int getSeconds() {
+        return (int) (time % 60);
     }
 }

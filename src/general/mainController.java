@@ -31,7 +31,6 @@ public class mainController {
     @FXML private Circle vStepBackButton;
     @FXML private Label vStepsLabel;
     @FXML private Label vTimer;
-    private ImageView vWinPic;
     private Group cellsGroup;
     private Group chipsGroup;
 
@@ -39,12 +38,15 @@ public class mainController {
     private int stepsCounter;
     private GameTimer gameTimer;
     Stage tutorialStage;
+    Stage resultsStage;
+
+    public static boolean NEW_GAME;
+
 
     public mainController() { }
 
     @FXML
     private void initialize() {
-        initializeCongratsPic(vWinPic);
 
         vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
         vTutorialButton.setFill(new ImagePattern(new Image("instruction.png")));
@@ -77,19 +79,23 @@ public class mainController {
         cellsGroup = new Group();
         chipsGroup = new Group();
         addCellsAndChipsToGroup();
-        vBoard.getChildren().addAll(cellsGroup, chipsGroup, vWinPic);
+        vBoard.getChildren().addAll(cellsGroup, chipsGroup);
 
         vStepBackButton.setDisable(true);
         vStepBackButton.setOpacity(0.5);
     }
 
-    @FXML
-    public void generateBoardAgain(MouseEvent mouseEvent) {
+
+    private void generateBoardAgain() {
         gameTimer.stop();
         vTimer.setText("00:00");
         vBoard.getChildren().clear();
-        vWinPic.setVisible(false);
         generateBoard();
+    }
+
+    @FXML
+    public void generateBoardAgainEvent(MouseEvent mouseEvent) {
+        generateBoardAgain();
     }
 
     @FXML
@@ -103,6 +109,27 @@ public class mainController {
         tutorialStage.showAndWait();
     }
 
+    public void openResults() {
+        ResultsController.summarySteps = "You coped with the task in " + stepsCounter + " steps";
+        ResultsController.summaryTime = "Elapsed time - " + (gameTimer.getHours()==0?"":gameTimer.getHours() + " hour, ") + (gameTimer.getMinutes()==0?"":gameTimer.getMinutes() + " minutes and ") + gameTimer.getSeconds() + " seconds";
+        resultsStage = new Stage();
+        try {
+            resultsStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("results.fxml"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        resultsStage.setResizable(false);
+        resultsStage.initStyle(StageStyle.UNDECORATED);
+        resultsStage.initModality(Modality.APPLICATION_MODAL);
+        resultsStage.initOwner(vBoard.getScene().getWindow());
+        resultsStage.showAndWait();
+        if (NEW_GAME) {
+            generateBoardAgain();
+        } else {
+            closeStage();
+        }
+    }
+
     private void addCellsAndChipsToGroup() {
         for (int y = 0; y < BOARD_SIZE; y++) {
             for (int x = 0; x < BOARD_SIZE; x++) {
@@ -114,14 +141,6 @@ public class mainController {
         }
     }
 
-    private void initializeCongratsPic(ImageView vPic) {
-        vWinPic = new ImageView("win.png");
-        vWinPic.setVisible(false);
-        vWinPic.setFitWidth(350);
-        vWinPic.setFitHeight(170);
-        vWinPic.setLayoutX(75);
-        vWinPic.setLayoutY(160);
-    }
 
     private int mousePosToCell(double pos) {
         return (int)(pos + CELL_SIZE / 2) / CELL_SIZE;
@@ -153,7 +172,6 @@ public class mainController {
                     break;
                 case ABLE:
                     if(!gameTimer.isStarted()) gameTimer.start();
-
                     ++stepsCounter;
                     setSteps2Label();
 
@@ -166,12 +184,11 @@ public class mainController {
 
                     if(chip.getChipType() == board.getCell(oldX, oldY).getCellType() && board.getRGBbyId(chip.getChipType().getId())) {
                         board.changeCellsColor(chip.getChipType(), false);
-                        //vWinPic.setVisible(false);
                     }
                     if(chip.getChipType() == board.getCell(newX, newY).getCellType()) {
                         if (board.checkRowCollected(chip.getChipType())) {
-                            vWinPic.setVisible(true);
                             gameTimer.stop();
+                            openResults();
                         }
                     }
                     break;
@@ -189,6 +206,12 @@ public class mainController {
         board.moveChipToNewXY();
 
 
+    }
+
+
+    private void closeStage() {
+        Stage currentStage = (Stage)(vBase.getScene().getWindow());
+        currentStage.close();
     }
 
 
