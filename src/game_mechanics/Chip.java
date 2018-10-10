@@ -11,10 +11,28 @@ public class Chip extends StackPane {
     private double mouseX, mouseY, pastMouseX, pastMouseY;
 
     public Chip(CType type, int x, int y) {
-        this.chipType = type;
 
+        this.chipType = type;
         move(x, y);
 
+        drawChip();
+        setActionsToChip();
+    }
+
+    public void move(int x, int y) {
+        pastMouseX = x * CELL_SIZE;
+        pastMouseY = y * CELL_SIZE;
+        relocate(pastMouseX, pastMouseY);
+    }
+
+    public void moveBack() {
+        relocate(pastMouseX, pastMouseY);
+    }
+
+    public CType getChipType() { return chipType; }
+    public double getPastMouseX() { return pastMouseX; }
+    public double getPastMouseY() { return pastMouseY; }
+    private void drawChip() {
         //*****
         Ellipse vBottomOfChip = new Ellipse(CELL_SIZE*0.3125, CELL_SIZE*0.26);
         vBottomOfChip.setFill(Color.BLACK);
@@ -37,6 +55,9 @@ public class Chip extends StackPane {
         getChildren().addAll(vBottomOfChip, vChip);
 
         //*****
+    }
+
+    private void setActionsToChip() {
         if (this.chipType != CType.BLOCK) {
             setOnMousePressed(event -> {
                 mouseX = event.getSceneX();
@@ -48,18 +69,4 @@ public class Chip extends StackPane {
             });
         }
     }
-
-    public void move(int x, int y) {
-        pastMouseX = x * CELL_SIZE;
-        pastMouseY = y * CELL_SIZE;
-        relocate(pastMouseX, pastMouseY);
-    }
-
-    public void moveBack() {
-        relocate(pastMouseX, pastMouseY);
-    }
-
-    public CType getChipType() { return chipType; }
-    public double getPastMouseX() { return pastMouseX; }
-    public double getPastMouseY() { return pastMouseY; }
 }

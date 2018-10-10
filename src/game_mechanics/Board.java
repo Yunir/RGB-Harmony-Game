@@ -11,6 +11,8 @@ public class Board {
     private final int COUNT_OF_ONE_COLOR_CHIPS = BOARD_SIZE; //maximum height of board (where one_color_chips should be placed)
     private final int COUNT_OF_BLOCKS = 6;
     private Cell[][] cells;
+    private boolean isSteppedBack;
+    private int stepBackX, stepBack2X, stepBackY, stepBack2Y; //X, Y - step back pos; 2X, 2Y - current pos
 
     public Board() {
         cells = new Cell[BOARD_SIZE][BOARD_SIZE];
@@ -114,5 +116,38 @@ public class Board {
     }
     public Cell getCell(int x, int y) {
         return cells[x][y];
+    }
+
+    public void saveLastStep(int prevX, int prevY, int currX, int currY) {
+        stepBackX = prevX;
+        stepBackY = prevY;
+        stepBack2X = currX;
+        stepBack2Y = currY;
+    }
+
+    public void stepBack() {
+        int tempX, tempY;
+        tempX = stepBackX;
+        tempY = stepBackY;
+        stepBackX = stepBack2X;
+        stepBackY = stepBack2Y;
+        stepBack2X = tempX;
+        stepBack2Y = tempY;
+        isSteppedBack = !isSteppedBack;
+    }
+
+    public boolean isSteppedBack() {
+        return isSteppedBack;
+    }
+
+    public void setSteppedBack(boolean steppedBack) {
+        isSteppedBack = steppedBack;
+    }
+
+    public void moveChipToNewXY () {
+        Chip chip = cells[stepBackX][stepBackY].getChip();
+        chip.move(stepBack2X, stepBack2Y);
+        getCell(stepBackX,stepBackY).setChip(null);
+        getCell(stepBack2X, stepBack2Y).setChip(chip);
     }
 }

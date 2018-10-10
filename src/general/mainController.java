@@ -14,6 +14,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -52,50 +53,6 @@ public class mainController {
         generateBoard();
     }
 
-    private Chip attachActionToChip(Chip chip) {
-        chip.setOnMouseReleased(event -> {
-
-            MoveResult result;
-
-            int newX = mousePosToCell(chip.getLayoutX());
-            int newY = mousePosToCell(chip.getLayoutY());
-            if (newX < 0 || newY < 0 || newX >= BOARD_SIZE || newY >= BOARD_SIZE) {
-                result = new MoveResult(MoveType.UNABLE);
-            } else {
-                result = tryMove(chip, newX, newY);
-            }
-
-            int oldX = mousePosToCell(chip.getPastMouseX());
-            int oldY = mousePosToCell(chip.getPastMouseY());
-
-            switch (result.getType()) {
-                case UNABLE:
-                    chip.moveBack();
-                    break;
-                case ABLE:
-                    if(!gameTimer.isStarted())gameTimer.start();
-                    ++stepsCounter;
-                    vStepsLabel.setText(Integer.toString(stepsCounter));
-                    chip.move(newX, newY);
-                    board.getCell(oldX,oldY).setChip(null);
-                    board.getCell(newX,newY).setChip(chip);
-                    if(chip.getChipType() == board.getCell(oldX, oldY).getCellType() && board.getRGBbyId(chip.getChipType().getId())) {
-                        board.changeCellsColor(chip.getChipType(), false);
-                        //vWinPic.setVisible(false);
-                    }
-                    if(chip.getChipType() == board.getCell(newX, newY).getCellType()) {
-                        if (board.checkRowCollected(chip.getChipType())) {
-                            vWinPic.setVisible(true);
-                            gameTimer.stop();
-                        }
-                    }
-                    break;
-            }
-        });
-
-        return chip;
-    }
-
     private MoveResult tryMove(Chip chip, int newX, int newY) {
         if (board.hasChip(newX, newY)) {
             return new MoveResult(MoveType.UNABLE);
@@ -113,13 +70,18 @@ public class mainController {
     }
 
     private void generateBoard() {
+
         stepsCounter = 0;
-        vStepsLabel.setText("0");
+        setSteps2Label();
+
         board = new Board();
         cellsGroup = new Group();
         chipsGroup = new Group();
         addCellsAndChipsToGroup();
         vBoard.getChildren().addAll(cellsGroup, chipsGroup, vWinPic);
+
+        vStepBackButton.setDisable(true);
+        vStepBackButton.setOpacity(0.5);
     }
 
     @FXML
@@ -134,7 +96,7 @@ public class mainController {
         tutorialStage = new Stage();
         tutorialStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("tutorial.fxml"))));
         tutorialStage.setResizable(false);
-        tutorialStage.setTitle("My modal window");
+        tutorialStage.initStyle(StageStyle.UNDECORATED);
         tutorialStage.initModality(Modality.APPLICATION_MODAL);
         tutorialStage.initOwner(vBoard.getScene().getWindow());
         tutorialStage.showAndWait();
@@ -163,4 +125,70 @@ public class mainController {
     private int mousePosToCell(double pos) {
         return (int)(pos + CELL_SIZE / 2) / CELL_SIZE;
     }
+
+    private void setSteps2Label() {
+        vStepsLabel.setText(Integer.toString(stepsCounter));
+    }
+
+    private Chip attachActionToChip(Chip chip) {
+        chip.setOnMouseReleased(event -> {
+
+            MoveResult result;
+
+            int newX = mousePosToCell(chip.getLayoutX());
+            int newY = mousePosToCell(chip.getLayoutY());
+            if (newX < 0 || newY < 0 || newX >= BOARD_SIZE || newY >= BOARD_SIZE) {
+                result = new MoveResult(MoveType.UNABLE);
+            } else {
+                result = tryMove(chip, newX, newY);
+            }
+
+            int oldX = mousePosToCell(chip.getPastMouseX());
+            int oldY = mousePosToCell(chip.getPastMouseY());
+
+            switch (result.getType()) {
+                case UNABLE:
+                    chip.moveBack();
+                    break;
+                case ABLE:
+                    if(!gameTimer.isStarted()) gameTimer.start();
+
+                    ++stepsCounter;
+                    setSteps2Label();
+
+                    board.saveLastStep(oldX, oldY, newX, newY);
+                    board.moveChipToNewXY();
+
+                    vStepBackButton.setDisable(false);
+                    vStepBackButton.setOpacity(1);
+
+
+                    if(chip.getChipType() == board.getCell(oldX, oldY).getCellType() && board.getRGBbyId(chip.getChipType().getId())) {
+                        board.changeCellsColor(chip.getChipType(), false);
+                        //vWinPic.setVisible(false);
+                    }
+                    if(chip.getChipType() == board.getCell(newX, newY).getCellType()) {
+                        if (board.checkRowCollected(chip.getChipType())) {
+                            vWinPic.setVisible(true);
+                            gameTimer.stop();
+                        }
+                    }
+                    break;
+            }
+        });
+
+        return chip;
+    }
+
+    public void stepBack(MouseEvent mouseEvent) {
+        stepsCounter = stepsCounter + (board.isSteppedBack()?1:-1);
+        setSteps2Label();
+
+        board.stepBack();
+        board.moveChipToNewXY();
+
+
+    }
+
+
 }
