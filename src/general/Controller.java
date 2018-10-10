@@ -4,6 +4,8 @@ import game_mechanics.*;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class Controller {
@@ -13,14 +15,15 @@ public class Controller {
 
     @FXML private BorderPane vBase;
     @FXML private Label vIntro;
-    private Pane vBoard;
+    @FXML private Pane vBoard;
+    private ImageView vWinPic;
     private Group cellsGroup;
     private Group chipsGroup;
 
     private Board board;
 
     public Controller() {
-        vBoard = new Pane();
+        vWinPic = new ImageView("win.png");
         cellsGroup = new Group();
         chipsGroup = new Group();
         board = new Board();
@@ -28,13 +31,13 @@ public class Controller {
 
     @FXML
     private void initialize() {
-        vBoard.setPrefSize(CELL_SIZE*BOARD_SIZE, CELL_SIZE*BOARD_SIZE);
-
+        vWinPic.setVisible(false);
+        vWinPic.setFitWidth(350);
+        vWinPic.setFitHeight(170);
+        vWinPic.setLayoutX(75);
+        vWinPic.setLayoutY(160);
         addCellsAndChipsToGroup();
-        vBoard.getChildren().addAll(cellsGroup, chipsGroup);
-        vBoard.setMaxSize(500, 500);
-        vBase.setCenter(vBoard);
-
+        vBoard.getChildren().addAll(cellsGroup, chipsGroup, vWinPic);
     }
 
     private Chip attachActionToChip(Chip chip) {
@@ -63,8 +66,9 @@ public class Controller {
                     board.getCell(newX,newY).setChip(chip);
                     if(chip.getChipType() == board.getCell(oldX, oldY).getCellType() && board.getRGBbyId(chip.getChipType().getId())) {
                         board.changeCellsColor(chip.getChipType(), false);
+                        //vWinPic.setVisible(false);
                     }
-                    if(chip.getChipType() == board.getCell(newX, newY).getCellType()) board.checkRowCollected(chip.getChipType());
+                    if(chip.getChipType() == board.getCell(newX, newY).getCellType()) vWinPic.setVisible(board.checkRowCollected(chip.getChipType()));
                     break;
             }
         });

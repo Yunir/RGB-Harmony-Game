@@ -34,14 +34,10 @@ public class Board {
             System.out.println(y + " So chipType " + chipType + " and cellType is " + cells[chipType.defPosX][y].getCellType());
         }
         changeCellsColor(chipType, true);
-        if(r && g && b) congratulateUser();
-        return true;
+        return (r && g && b);
+
     }
 
-    private void congratulateUser() {
-        //TODO congratulation
-        System.out.println("HOoray! You Win!");
-    }
 
     public void changeCellsColor (CType chipType, boolean isCollected) {
         switch (chipType.id) {
