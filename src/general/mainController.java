@@ -45,7 +45,6 @@ public class mainController {
     @FXML
     private void initialize() {
         initializeCongratsPic(vWinPic);
-        gameTimer = new GameTimer(vTimer);
 
         vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
         vTutorialButton.setFill(new ImagePattern(new Image("instruction.png")));
@@ -73,7 +72,7 @@ public class mainController {
 
         stepsCounter = 0;
         setSteps2Label();
-
+        gameTimer = new GameTimer(vTimer);
         board = new Board();
         cellsGroup = new Group();
         chipsGroup = new Group();
@@ -86,6 +85,8 @@ public class mainController {
 
     @FXML
     public void generateBoardAgain(MouseEvent mouseEvent) {
+        gameTimer.stop();
+        vTimer.setText("00:00");
         vBoard.getChildren().clear();
         vWinPic.setVisible(false);
         generateBoard();
