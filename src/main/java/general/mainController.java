@@ -50,9 +50,9 @@ public class mainController {
 
     @FXML
     private void initialize() {
-        vRetryButton.setFill(new ImagePattern(new Image("retry.png")));
-        vTutorialButton.setFill(new ImagePattern(new Image("instruction.png")));
-        vStepBackButton.setFill(new ImagePattern(new Image("step_back.png")));
+        vRetryButton.setFill(new ImagePattern(new Image("/img/retry.png")));
+        vTutorialButton.setFill(new ImagePattern(new Image("/img/instruction.png")));
+        vStepBackButton.setFill(new ImagePattern(new Image("/img/step_back.png")));
         vRetryButton.setVisible(false);
         vTutorialButton.setVisible(false);
         vStepBackButton.setVisible(false);
@@ -110,7 +110,7 @@ public class mainController {
     @FXML
     public void openTutorial(MouseEvent mouseEvent) throws IOException {
         tutorialStage = new Stage();
-        tutorialStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("tutorial.fxml"))));
+        tutorialStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/tutorial.fxml"))));
         tutorialStage.setResizable(false);
         tutorialStage.initStyle(StageStyle.UNDECORATED);
         tutorialStage.initModality(Modality.APPLICATION_MODAL);
@@ -123,7 +123,7 @@ public class mainController {
         ResultsController.summaryTime = "Elapsed time - " + (gameTimer.getHours()==0?"":gameTimer.getHours() + " hour, ") + (gameTimer.getMinutes()==0?"":gameTimer.getMinutes() + " minutes and ") + gameTimer.getSeconds() + " seconds";
         resultsStage = new Stage();
         try {
-            resultsStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("results.fxml"))));
+            resultsStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/results.fxml"))));
         } catch (IOException e) {
             e.printStackTrace();
         }

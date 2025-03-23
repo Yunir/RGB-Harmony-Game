@@ -37,7 +37,7 @@ public class ResultsController {
     }
 
     private void initializeCongratsPic() {
-        vCongratsImage.setImage(new Image("win.png"));
+        vCongratsImage.setImage(new Image("/img/win.png"));
         vCongratsImage.setFitWidth(350);
         vCongratsImage.setFitHeight(170);
         vCongratsImage.setLayoutX(75);
